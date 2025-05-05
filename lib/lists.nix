@@ -385,9 +385,9 @@ rec {
   */
   ifilter0 =
     ipred: input:
-    map (idx: elemAt input idx) (
-      filter (idx: ipred idx (elemAt input idx)) (genList (x: x) (length input))
-    );
+    builtins.concatMap (
+      idx: if ipred idx (builtins.elemAt input idx) then [ (builtins.elemAt input idx) ] else [ ]
+    ) (builtins.genList (x: x) (builtins.length input));
 
   /**
     Map and concatenate the result.
